@@ -3,7 +3,6 @@ import projects from "@/mock-data/projects.json";
 import judges from "@/mock-data/judges.json";
 import { Button } from "@/components/ui/button";
 import type { Project } from "@/types/dashboard";
-import { cn } from "@/lib/utils";
 
 export default function ProjectSummaryView({ projectId }: { projectId: string }) {
   const data = projects as Project[];
@@ -44,18 +43,17 @@ export default function ProjectSummaryView({ projectId }: { projectId: string })
       </div>
 
       <div className="pt-2">
-        <div className="text-[11px] font-oxanium tracking-widest text-neon-purple/80">
-          {project.projectIdLabel ?? "SYSTEM CORE V2.4"}
-        </div>
+        <div
+          className="text-[11px] font-oxanium tracking-widest text-neon-purple/80 invisible"
+          aria-hidden="true"
+        />
         <h1 className="mt-3 text-[54px] leading-[1.02] font-oxanium tracking-wide font-semibold text-black">
           <span className="relative inline-block">
             {project.name}
             <span className="absolute -bottom-1 left-0 right-0 h-[4px] bg-neon-cyan/90 shadow-[0_0_30px_rgba(0,179,212,0.36)] rounded-full" />
           </span>
         </h1>
-        <div className="mt-2 text-[13px] font-oxanium tracking-widest text-black/70">
-          BY {project.team}
-        </div>
+        <div className="mt-2 text-[13px] font-oxanium tracking-widest text-black/70 invisible" aria-hidden="true" />
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-6">
@@ -72,59 +70,6 @@ export default function ProjectSummaryView({ projectId }: { projectId: string })
             model without compromising privacy through local differential privacy
             implementations.
           </p>
-
-          <div className="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
-            <div className="rounded-xl border border-black/10 bg-white px-4 py-4">
-              <div className="text-[10px] font-oxanium tracking-widest text-black/45">
-                LATENCY
-              </div>
-              <div className="mt-2 text-[20px] font-oxanium tracking-widest font-semibold text-neon-cyan">
-                {project.summaryMetrics?.latency}
-              </div>
-            </div>
-            <div className="rounded-xl border border-black/10 bg-white px-4 py-4">
-              <div className="text-[10px] font-oxanium tracking-widest text-black/45">
-                NODES
-              </div>
-              <div className="mt-2 text-[20px] font-oxanium tracking-widest font-semibold text-black">
-                {project.summaryMetrics?.nodes}
-              </div>
-            </div>
-            <div className="rounded-xl border border-black/10 bg-white px-4 py-4">
-              <div className="text-[10px] font-oxanium tracking-widest text-black/45">
-                COMPRESSION
-              </div>
-              <div className="mt-2 text-[20px] font-oxanium tracking-widest font-semibold text-neon-purple">
-                {project.summaryMetrics?.compression}
-              </div>
-            </div>
-            <div className="rounded-xl border border-black/10 bg-white px-4 py-4">
-              <div className="text-[10px] font-oxanium tracking-widest text-black/45">
-                SECURITY
-              </div>
-              <div className="mt-2 text-[20px] font-oxanium tracking-widest font-semibold text-black">
-                {project.summaryMetrics?.security}
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-            {project.previewCards?.map((c) => (
-              <div
-                key={c.id}
-                className={cn(
-                  "rounded-2xl border border-black/10 bg-white h-[160px] flex items-end p-5",
-                  c.tone === "cyan" ? "neon-border-cyan" : "neon-border-purple",
-                )}
-              >
-                <div className="text-[11px] font-oxanium tracking-widest font-semibold">
-                  <span className={c.tone === "cyan" ? "text-neon-cyan" : "text-neon-purple"}>
-                    {c.label}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
         <aside className="space-y-6">
@@ -136,8 +81,8 @@ export default function ProjectSummaryView({ projectId }: { projectId: string })
               Initiate the multi-factor scoring rubric for this entry.
             </div>
             <div className="mt-5 flex justify-center">
-              <Button variant="default" className="rounded-xl px-10">
-                START EVALUATION
+              <Button asChild variant="default" className="rounded-xl px-10">
+                <Link href={`/evaluation/${projectId}`}>START EVALUATION</Link>
               </Button>
             </div>
           </div>

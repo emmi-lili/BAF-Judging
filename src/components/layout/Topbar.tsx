@@ -14,12 +14,10 @@ export default function Topbar() {
   const pathname = usePathname();
 
   return (
-    <header className="h-16 px-6 flex items-center justify-between border-b border-black/10 bg-[linear-gradient(180deg,rgba(247,249,255,0.95),rgba(241,245,255,0.85))]">
-      <div className="flex items-center gap-10">
-        <div className="font-oxanium text-black tracking-widest text-sm font-semibold">
-          HEARTBEAT_OS
-        </div>
-        <div className="hidden md:flex items-center gap-6">
+    <header className="h-16 px-3 sm:px-4 md:px-6 flex items-center justify-between border-b border-black/10 bg-[linear-gradient(180deg,rgba(247,249,255,0.95),rgba(241,245,255,0.85))]">
+      <div className="flex items-center gap-4 md:gap-10 min-w-0">
+        <div className="sr-only">HEARTBEAT_OS</div>
+        <div className="flex items-center gap-4 md:gap-6 overflow-x-auto whitespace-nowrap [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {topNav.map((item) => {
             const isActive = item.href === "/overview"
               ? pathname === "/" || pathname.startsWith("/overview")
@@ -30,7 +28,7 @@ export default function Topbar() {
                 key={item.href}
                 href={item.href}
                 className={[
-                  "text-[12px] tracking-widest font-oxanium text-black/70 hover:text-black transition-colors relative pb-2",
+                  "text-[11px] md:text-[12px] tracking-widest font-oxanium text-black/70 hover:text-black transition-colors relative pb-2 shrink-0",
                   isActive ? "text-black" : "",
                 ].join(" ")}
               >
@@ -44,8 +42,8 @@ export default function Topbar() {
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-neon-cyan/20 to-neon-purple/20 border border-black/10 shadow-[0_0_30px_rgba(0,179,212,0.08)] flex items-center justify-center">
+      <div className="flex items-center gap-2 sm:gap-4 pl-2">
+        <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-gradient-to-br from-neon-cyan/20 to-neon-purple/20 border border-black/10 shadow-[0_0_30px_rgba(0,179,212,0.08)] flex items-center justify-center shrink-0">
           <UserRound className="h-4 w-4 text-black/75" />
         </div>
       </div>

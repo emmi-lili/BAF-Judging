@@ -8,9 +8,6 @@ export default function ProjectsGridView() {
   return (
     <div className="space-y-6">
       <div>
-        <div className="text-[12px] font-oxanium tracking-widest text-neon-cyan/90 font-semibold">
-          ALL_PROJECTS
-        </div>
         <h1 className="mt-2 text-[26px] font-oxanium tracking-wider font-semibold text-black">
           All projects
         </h1>
