@@ -1,16 +1,6 @@
-"use client";
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function Home() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace("/overview");
-  }, [router]);
-
+export default function NotFound() {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center gap-6 px-4"
@@ -20,13 +10,13 @@ export default function Home() {
         fontFamily: "var(--font-oxanium), sans-serif",
       }}
     >
-      <p className="text-lg font-semibold tracking-wider">Judge Portal</p>
-      <p className="text-sm text-black/60">Redirigiendo al dashboard...</p>
+      <h1 className="text-2xl font-semibold tracking-wider">404</h1>
+      <p className="text-black/70 tracking-wide">Página no encontrada</p>
       <Link
         href="/overview"
         className="px-6 py-3 rounded-xl border border-black/10 bg-white font-semibold tracking-wider hover:bg-black/5 transition-colors"
       >
-        Ir a Overview
+        Ir al Overview
       </Link>
     </div>
   );
