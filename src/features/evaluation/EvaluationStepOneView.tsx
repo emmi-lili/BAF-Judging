@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Rocket, Eye, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Eye, Rocket, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import logo from "@/app/public/BAF1.png";
 
 type EvalBlock = {
   phaseLabel: string;
@@ -92,6 +94,7 @@ export default function EvaluationStepOneView({ projectId }: { projectId: string
   const [stage, setStage] = useState(0);
   const [blockIndex, setBlockIndex] = useState(0);
   const [showFinalScreen, setShowFinalScreen] = useState(false);
+  const [showSuccessScreen, setShowSuccessScreen] = useState(false);
   const [scores, setScores] = useState<number[]>(() => EVAL_BLOCKS.map(() => 0));
   const currentBlock = EVAL_BLOCKS[blockIndex];
   const score = scores[blockIndex] ?? 0;
@@ -132,6 +135,73 @@ export default function EvaluationStepOneView({ projectId }: { projectId: string
 
     return () => timers.forEach((id) => window.clearTimeout(id));
   }, []);
+
+  if (showSuccessScreen) {
+    return (
+      <div className="rounded-2xl border border-black/10 bg-[linear-gradient(180deg,#f8fbff,#eef4ff)] p-4 sm:p-6 md:p-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-6 md:gap-10 items-center">
+          <div className="relative">
+            <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-[0_20px_60px_rgba(2,6,23,0.08)]">
+              <div className="relative h-[260px] sm:h-[320px] rounded-xl bg-[radial-gradient(circle_at_20%_20%,rgba(0,179,212,0.18),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(179,92,255,0.18),transparent_45%),linear-gradient(145deg,#f6fbff,#e9f1ff)] border border-black/10 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Image
+                    src={logo}
+                    alt="Project reviewed"
+                    width={180}
+                    height={180}
+                    className="h-[130px] w-[130px] sm:h-[180px] sm:w-[180px] object-contain drop-shadow-[0_12px_30px_rgba(0,179,212,0.28)]"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="absolute -top-4 right-4 rounded-xl border border-black/10 bg-white/95 px-4 py-3 shadow-[0_10px_30px_rgba(2,6,23,0.10)]">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-neon-cyan" />
+                <div>
+                  <div className="text-[9px] font-oxanium tracking-widest text-black/45">STATUS</div>
+                  <div className="text-[12px] font-oxanium tracking-wider font-semibold text-black/75">
+                    SYNC_COMPLETE
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-neon-purple/10 px-3 py-1 border border-neon-purple/20">
+              <span className="h-2 w-2 rounded-full bg-neon-purple" />
+              <span className="text-[10px] font-oxanium tracking-widest text-neon-purple">PROJECT REVIEWED</span>
+            </div>
+
+            <h2 className="mt-4 text-[42px] sm:text-[54px] leading-[0.98] font-oxanium font-semibold tracking-wide text-black">
+              Evaluation
+              <br />
+              Completed
+            </h2>
+
+            <p className="mt-4 text-[18px] font-oxanium tracking-wide text-black/65 max-w-[620px]">
+              Thank you for your valuable time and feedback. Your evaluation has been
+              successfully recorded in the PulseJudge mainframe.
+            </p>
+
+            <div className="mt-8">
+              <Button asChild variant="default" className="h-14 px-8 sm:min-w-[320px] justify-between">
+                <Link href="/overview">
+                  RETURN TO DASHBOARD
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
+
+            <div className="mt-6 text-[12px] font-oxanium tracking-wider text-black/55">
+              14 Judges have finalized evaluations for this pool.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    );
+  }
 
   if (showFinalScreen) {
     return (
@@ -211,7 +281,12 @@ export default function EvaluationStepOneView({ projectId }: { projectId: string
               </div>
             </div>
 
-            <Button type="button" variant="default" className="h-12 w-full sm:w-auto sm:min-w-[180px] order-3 sm:order-none">
+            <Button
+              type="button"
+              onClick={() => setShowSuccessScreen(true)}
+              variant="default"
+              className="h-12 w-full sm:w-auto sm:min-w-[180px] order-3 sm:order-none"
+            >
               Submit review
             </Button>
           </div>
