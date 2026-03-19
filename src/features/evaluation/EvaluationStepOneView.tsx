@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Rocket, Eye, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type EvalBlock = {
   phaseLabel: string;
-  progressPct: number;
   criterionLabel: string;
   question: string;
   questionAccent: string;
@@ -19,7 +18,6 @@ type EvalBlock = {
 const EVAL_BLOCKS: EvalBlock[] = [
   {
     phaseLabel: "PROBLEM & RELEVANCE",
-    progressPct: 12.5,
     criterionLabel: "CRITERION 01/08",
     question: "Solution & Product: How effectively does the solution address the problem?",
     questionAccent: "How effectively does the solution address the problem?",
@@ -29,7 +27,6 @@ const EVAL_BLOCKS: EvalBlock[] = [
   },
   {
     phaseLabel: "UX FLOW & CLARITY",
-    progressPct: 25,
     criterionLabel: "CRITERION 02/08",
     question:
       "User Experience (UX/UI): Is the product intuitive and easy to use for its target users?",
@@ -40,7 +37,6 @@ const EVAL_BLOCKS: EvalBlock[] = [
   },
   {
     phaseLabel: "STELLAR & ECOSYSTEM",
-    progressPct: 37.5,
     criterionLabel: "CRITERION 03/08",
     question:
       "Use of Stellar & Ecosystem: How well does the project leverage Stellar and its ecosystem?",
@@ -52,7 +48,6 @@ const EVAL_BLOCKS: EvalBlock[] = [
   },
   {
     phaseLabel: "TECHNICAL IMPLEMENTATION",
-    progressPct: 50,
     criterionLabel: "CRITERION 04/08",
     question:
       "Technical Implementation & Execution: How well is the solution built and does it actually work?",
@@ -61,6 +56,28 @@ const EVAL_BLOCKS: EvalBlock[] = [
     description:
       "Evaluate technical quality, architecture solidity, execution completeness, and whether the implemented solution is functional end-to-end.",
     maxScore: 20,
+  },
+  {
+    phaseLabel: "INNOVATION & DIFFERENTIATION",
+    criterionLabel: "CRITERION 05/08",
+    question:
+      "Innovation & Differentiation: How original and distinctive is this solution compared to existing alternatives?",
+    questionAccent:
+      "How original and distinctive is this solution compared to existing alternatives?",
+    description:
+      "Measure novelty, uniqueness of approach, and whether the solution introduces clear differentiation in value or execution.",
+    maxScore: 20,
+  },
+  {
+    phaseLabel: "STELLAR & ECOSYSTEM",
+    criterionLabel: "CRITERION 06/08",
+    question:
+      "Use of Stellar & Ecosystem: How well does the project leverage Stellar and its ecosystem?",
+    questionAccent:
+      "How well does the project leverage Stellar and its ecosystem?",
+    description:
+      "Evaluate depth of Stellar integration, practical ecosystem usage, and whether the implementation demonstrates real platform understanding.",
+    maxScore: 25,
   },
 ];
 
@@ -74,10 +91,14 @@ function stageClass(isVisible: boolean) {
 export default function EvaluationStepOneView({ projectId }: { projectId: string }) {
   const [stage, setStage] = useState(0);
   const [blockIndex, setBlockIndex] = useState(0);
-  const [scores, setScores] = useState<number[]>([15, 8, 14, 16]);
+  const [showFinalScreen, setShowFinalScreen] = useState(false);
+  const [scores, setScores] = useState<number[]>(() => EVAL_BLOCKS.map(() => 0));
   const currentBlock = EVAL_BLOCKS[blockIndex];
   const score = scores[blockIndex] ?? 0;
-  const totalScore = scores.reduce((acc, n) => acc + n, 0);
+  const rawTotalScore = scores.reduce((acc, n) => acc + n, 0);
+  const maxTotalScore = EVAL_BLOCKS.reduce((acc, b) => acc + b.maxScore, 0);
+  const totalScore = Math.round((rawTotalScore / maxTotalScore) * 100);
+  const progressPct = Math.round(((blockIndex + 1) / EVAL_BLOCKS.length) * 100);
 
   const updateScore = (newScore: number) => {
     setScores((prev) => {
@@ -92,6 +113,8 @@ export default function EvaluationStepOneView({ projectId }: { projectId: string
       setBlockIndex((i) => i + 1);
       return;
     }
+
+    setShowFinalScreen(true);
   };
 
   const handleBack = () => {
@@ -110,20 +133,105 @@ export default function EvaluationStepOneView({ projectId }: { projectId: string
     return () => timers.forEach((id) => window.clearTimeout(id));
   }, []);
 
+  if (showFinalScreen) {
+    return (
+      <div className="space-y-4">
+        <section className="rounded-2xl border border-black/10 bg-white p-4 sm:p-6 md:p-8">
+          <div className="flex items-center justify-between gap-4">
+            <div className="text-[11px] font-oxanium tracking-widest text-black/55">
+              FINAL REFLECTION
+            </div>
+            <div className="text-[18px] font-oxanium tracking-wider text-neon-cyan font-semibold">
+              100%
+            </div>
+          </div>
+          <div className="mt-3 h-[3px] bg-black/10 rounded-full overflow-hidden">
+            <div className="h-full bg-neon-cyan rounded-full" style={{ width: "100%" }} />
+          </div>
+
+          <div className="mt-5 sm:mt-7 rounded-2xl border border-black/10 bg-[linear-gradient(180deg,rgba(0,179,212,0.04),rgba(179,92,255,0.03))] p-4 sm:p-6 md:p-8">
+            <h2 className="text-[32px] sm:text-[38px] lg:text-[44px] leading-[1.06] sm:leading-[1.04] font-oxanium font-semibold tracking-wide text-black">
+              Final thoughts on the{" "}
+              <span className="text-neon-cyan">Pitch &amp; Presentation?</span>
+            </h2>
+            <p className="mt-3 sm:mt-4 text-[15px] sm:text-[18px] font-oxanium tracking-wide text-black/60 max-w-[820px]">
+              Analyze the delivery, narrative flow, and overall impact of the
+              project&apos;s verbal and visual representation.
+            </p>
+
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {[
+                { label: "CONFIDENT", Icon: Rocket },
+                { label: "CLEAR", Icon: Eye },
+                { label: "CREATIVE", Icon: Sparkles },
+              ].map(({ label, Icon }) => (
+                <button
+                  type="button"
+                  key={label}
+                  className="rounded-xl border border-black/10 bg-white px-4 py-6 hover:bg-black/[0.03] transition-colors"
+                >
+                  <div className="flex items-center justify-center">
+                    <Icon className="h-5 w-5 text-black/70" />
+                  </div>
+                  <div className="mt-3 text-[11px] font-oxanium tracking-widest text-black/65">
+                    {label}
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-7">
+              <div className="text-[12px] font-oxanium tracking-widest font-semibold text-neon-cyan">
+                ADDITIONAL OBSERVATIONS
+              </div>
+              <textarea
+                rows={5}
+                className="mt-3 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-[13px] font-oxanium tracking-wider outline-none focus:ring-2 focus:ring-neon-cyan/30"
+                placeholder="Briefly log terminal feedback here..."
+              />
+            </div>
+          </div>
+
+          <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <button
+              type="button"
+              onClick={() => setShowFinalScreen(false)}
+              className="inline-flex items-center gap-2 text-[11px] font-oxanium tracking-widest text-black/55 hover:text-black transition-colors order-1 sm:order-none"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              PREVIOUS
+            </button>
+
+            <div className="rounded-full border border-black/10 bg-white px-5 py-2 text-center order-2 sm:order-none self-center">
+              <div className="text-[9px] font-oxanium tracking-widest text-black/45">
+                TOTAL EVAL
+              </div>
+              <div className="text-[18px] font-oxanium tracking-wider font-semibold text-neon-cyan">
+                {totalScore}/100
+              </div>
+            </div>
+
+            <Button type="button" variant="default" className="h-12 w-full sm:w-auto sm:min-w-[180px] order-3 sm:order-none">
+              Submit review
+            </Button>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 gap-3 md:gap-4">
         <section className={cn("rounded-2xl border border-black/10 bg-white p-4 sm:p-6 md:p-8", stageClass(stage >= 1))}>
           <div className="flex items-center justify-between gap-4">
-            <div className="text-[11px] font-oxanium tracking-widest text-black/55">
-              PHASE: {currentBlock.phaseLabel}
-            </div>
+            <div className="text-[11px] font-oxanium tracking-widest text-black/55 invisible" aria-hidden="true" />
             <div className="text-[18px] font-oxanium tracking-wider text-neon-cyan font-semibold">
-              {currentBlock.progressPct}%
+              {progressPct}%
             </div>
           </div>
           <div className="mt-3 h-[3px] bg-black/10 rounded-full overflow-hidden">
-            <div className="h-full bg-neon-cyan rounded-full" style={{ width: `${currentBlock.progressPct}%` }} />
+            <div className="h-full bg-neon-cyan rounded-full" style={{ width: `${progressPct}%` }} />
           </div>
 
           <div className={cn("mt-5 sm:mt-7 rounded-2xl border border-black/10 bg-[linear-gradient(180deg,rgba(0,179,212,0.04),rgba(179,92,255,0.03))] p-4 sm:p-6 md:p-8", stageClass(stage >= 3))}>
@@ -198,7 +306,7 @@ export default function EvaluationStepOneView({ projectId }: { projectId: string
             <div className="rounded-full border border-black/10 bg-white px-5 py-2 text-center order-2 sm:order-none self-center">
               <div className="text-[9px] font-oxanium tracking-widest text-black/45">TOTAL EVAL</div>
               <div className="text-[18px] font-oxanium tracking-wider font-semibold text-neon-cyan">
-                {totalScore}/160
+                {totalScore}/100
               </div>
             </div>
 
@@ -208,7 +316,7 @@ export default function EvaluationStepOneView({ projectId }: { projectId: string
               variant="default"
               className="h-12 w-full sm:w-auto sm:min-w-[180px] order-3 sm:order-none"
             >
-              PROCEED
+              {progressPct === 100 ? "Send" : "PROCEED"}
             </Button>
           </div>
         </section>
