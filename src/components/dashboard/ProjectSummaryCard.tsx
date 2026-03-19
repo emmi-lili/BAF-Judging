@@ -25,9 +25,11 @@ export default function ProjectSummaryCard({
     >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <div className="text-[13px] font-oxanium tracking-widest text-black/55">
-            {project.team}
-          </div>
+          {project.team !== "TEAM_VOID_RUNNERS" ? (
+            <div className="text-[13px] font-oxanium tracking-widest text-black/55">
+              {project.team}
+            </div>
+          ) : null}
           <div className="mt-2 text-[20px] font-oxanium tracking-wider font-semibold text-black group-hover:text-black">
             {project.name}
           </div>

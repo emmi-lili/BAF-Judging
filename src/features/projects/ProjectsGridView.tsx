@@ -12,7 +12,7 @@ export default function ProjectsGridView() {
           ALL_PROJECTS
         </div>
         <h1 className="mt-2 text-[26px] font-oxanium tracking-wider font-semibold text-black">
-          PROJECT_PORTFOLIO
+          All projects
         </h1>
       </div>
 

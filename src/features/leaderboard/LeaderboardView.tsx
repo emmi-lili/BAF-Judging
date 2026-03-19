@@ -8,6 +8,8 @@ import ScoreSlider from "@/components/dashboard/ScoreSlider";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import type { RankingRow } from "@/types/dashboard";
+import Image from "next/image";
+import logo from "@/app/public/BAF1.png";
 
 export default function LeaderboardView() {
   const rows = rankings as RankingRow[];
@@ -21,9 +23,16 @@ export default function LeaderboardView() {
       <div className="flex items-start justify-between gap-6">
         <div>
           <div className="text-[13px] font-oxanium tracking-widest text-neon-cyan/90 font-semibold">
-            JUDGE_PORTAL
+            <span className="sr-only">JUDGE_PORTAL</span>
+            <Image
+              src={logo}
+              alt="Judge Portal logo"
+              width={26}
+              height={26}
+              className="inline-block align-middle"
+            />
             <span className="text-black/35 ml-2 text-[11px] tracking-wider">
-              v1.0.4-STABLE
+              BAF JUDGING
             </span>
           </div>
           <h1 className="mt-2 text-[36px] font-oxanium tracking-wide font-semibold text-black">

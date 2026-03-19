@@ -1,7 +1,6 @@
 import Link from "next/link";
 import projects from "@/mock-data/projects.json";
 import judges from "@/mock-data/judges.json";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Project } from "@/types/dashboard";
 import { cn } from "@/lib/utils";
@@ -179,13 +178,7 @@ export default function ProjectSummaryView({ projectId }: { projectId: string })
             <div className="text-[12px] font-oxanium tracking-widest font-semibold text-black/70">
               TECH STACK
             </div>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {project.techStack?.map((t) => (
-                <Badge key={t} variant="gray" className="rounded-full px-3 py-1 text-[11px] font-oxanium">
-                  {t}
-                </Badge>
-              ))}
-            </div>
+            <div className="mt-4 flex flex-wrap gap-2" />
           </div>
         </aside>
       </div>

@@ -5,10 +5,9 @@ import { usePathname } from "next/navigation";
 import {
   Boxes,
   LayoutGrid,
-  ListChecks,
-  Trophy,
-  Gem,
 } from "lucide-react";
+import Image from "next/image";
+import logo from "@/app/public/BAF1.png";
 
 const navItems = [
   { label: "Overview", href: "/overview", Icon: LayoutGrid },
@@ -21,15 +20,13 @@ export default function Sidebar() {
   return (
     <aside className="w-[248px] shrink-0 border-r border-black/10 bg-[linear-gradient(180deg,rgba(245,250,255,0.95),rgba(238,244,255,0.85))]">
       <div className="h-16 px-6 flex items-center gap-3">
-        <div className="h-10 w-10 rounded-xl bg-white/80 flex items-center justify-center border border-black/10 shadow-[0_0_30px_rgba(0,179,212,0.1)]">
-          <Gem className="h-5 w-5 text-neon-cyan" />
+        <div className="h-10 w-10 rounded-xl bg-white/80 flex items-center justify-center border border-black/10 shadow-[0_0_30px_rgba(0,179,212,0.1)] overflow-hidden">
+          <Image src={logo} alt="Judge Portal logo" width={40} height={40} className="h-10 w-10 object-contain" />
         </div>
         <div className="leading-tight">
-          <div className="font-oxanium text-black tracking-wide text-sm font-semibold">
-            JUDGE_PORTAL
-          </div>
+          <div className="sr-only">JUDGE_PORTAL</div>
           <div className="text-[11px] text-black/55 font-oxanium tracking-widest">
-            v1.0.4-STABLE
+            BAF JUDGING
           </div>
         </div>
       </div>
