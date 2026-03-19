@@ -39,6 +39,7 @@ export default function OverviewView() {
               ...item,
               actionLabel: "VIEW PROJECT",
             }}
+            primaryActionHref={`/projects/${item.projectId}`}
           />
         ))}
       </div>

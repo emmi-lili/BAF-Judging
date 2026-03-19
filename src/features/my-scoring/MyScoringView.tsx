@@ -19,7 +19,7 @@ export default function MyScoringView() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {myItems.map((item) => (
-          <ProjectQueueCard key={item.id} item={item} />
+          <ProjectQueueCard key={item.id} item={item} primaryActionHref={`/projects/${item.projectId}`} />
         ))}
       </div>
     </div>

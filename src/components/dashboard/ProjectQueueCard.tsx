@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -6,9 +7,11 @@ import type { QueueItem } from "@/types/dashboard";
 export default function ProjectQueueCard({
   item,
   onPrimaryAction,
+  primaryActionHref,
 }: {
   item: QueueItem;
   onPrimaryAction?: () => void;
+  primaryActionHref?: string;
 }) {
   return (
     <div className="rounded-xl border border-black/10 bg-white px-5 py-4">
@@ -29,16 +32,29 @@ export default function ProjectQueueCard({
       </div>
 
       <div className="mt-4 flex items-center justify-center">
-        <Button
-          variant="secondary"
-          className={cn(
-            "w-full rounded-xl",
-            item.status === "pending" ? "bg-black/0" : "",
-          )}
-          onClick={onPrimaryAction}
-        >
-          {item.actionLabel}
-        </Button>
+        {primaryActionHref ? (
+          <Button
+            asChild
+            variant="secondary"
+            className={cn(
+              "w-full rounded-xl",
+              item.status === "pending" ? "bg-black/0" : "",
+            )}
+          >
+            <Link href={primaryActionHref}>{item.actionLabel}</Link>
+          </Button>
+        ) : (
+          <Button
+            variant="secondary"
+            className={cn(
+              "w-full rounded-xl",
+              item.status === "pending" ? "bg-black/0" : "",
+            )}
+            onClick={onPrimaryAction}
+          >
+            {item.actionLabel}
+          </Button>
+        )}
       </div>
     </div>
   );
